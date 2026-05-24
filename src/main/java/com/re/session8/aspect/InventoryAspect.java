@@ -25,7 +25,7 @@ public class InventoryAspect {
     private final InventoryLogRepository logRepo;
 
 
-    @Before("execution(* com.re.session8.service.ProductService.deleteProduct(..)) && args(id)")
+    @Before("execution(* com.re.session8.service.ProductService.deleteProduct(..))")
     public void checkAdminRole(JoinPoint jp) {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String role = req.getHeader("Role");
