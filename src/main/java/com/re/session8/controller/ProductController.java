@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -57,11 +58,11 @@ public class ProductController {
     }
 
     @GetMapping("/inspect")
-    public ResponseEntity<Double> inspectInventory(
+    public ResponseEntity<Map<String, Double>> inspectInventory(
             @RequestHeader("User") String username,
             @RequestHeader("Role") String role) {
-        double totalValue = productService.inspectInventory();
-        return ResponseEntity.ok(totalValue);
+        Map<String, Double> result = productService.inspectInventory();
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{id}")

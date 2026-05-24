@@ -5,7 +5,9 @@ import com.re.session8.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,11 +36,23 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    public double inspectInventory() {
-        return productRepository.findAll()
+    public Map<String, Double> inspectInventory() {
+
+        double totalQuantity = productRepository.findAll()
+                .stream()
+                .mapToDouble(Product::getQuantity)
+                .sum();
+
+        double totalValue = productRepository.findAll()
                 .stream()
                 .mapToDouble(p -> p.getQuantity() * p.getPrice())
                 .sum();
+
+        Map<String, Double> result = new HashMap<>();
+        result.put("totalQuantity", totalQuantity);
+        result.put("totalValue", totalValue);
+
+        return result;
     }
 
     public void deleteProduct(Long id) {
